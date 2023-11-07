@@ -1,30 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, lazy } from 'react';
 
-import { useDispatch } from 'react-redux';
-import { fetchContacts } from 'redax/contactsThunk';
+import { Route, Routes } from 'react-router-dom';
 
-import ContactForm from './ContactForm/ContactForm';
+import { StyledAppContainer } from 'App.styled';
+import Navigation from './Navigation/Navigation';
 
-import ContactList from './ContactList/ContactList';
+const RegisterPage = lazy(() => import('./page/RegisterPage'));
+const LoginPage = lazy(() => import('./page/LoginPage'));
+const ContactsPage = lazy(() => import('./page/ContactsPage'));
 
-import Filter from './Filter/Filter';
+const appRoutes = [
+  { path: 'register', element: <RegisterPage /> },
+  { path: 'login', element: <LoginPage /> },
+  { path: 'contacts', element: <ContactsPage /> },
+];
 
 const App = () => {
-  const dispatch = useDispatch();
-  
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
 
   return (
-    <div>
-      <h1>Phonebook</h1>
-      <ContactForm />
-
-      <h2>Contacts</h2>
-      <Filter />
-      <ContactList />
-    </div>
+    <StyledAppContainer>
+      <Navigation />
+      
+      <Suspense>
+      <Routes>
+          {appRoutes.map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
+        </Routes>
+      </Suspense>
+      
+    </StyledAppContainer>
   );
 };
 
