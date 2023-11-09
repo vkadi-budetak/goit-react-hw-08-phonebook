@@ -1,16 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-
 import {
   requestAddContact,
-  requestContacts,
+  requestAllContacts,
   requestDeleteContact,
-} from 'services/api';
+} from 'services/phonebookApi';
 
 export const fetchContacts = createAsyncThunk(
-  'contacts/fetchAll',
+  'contacts/getAll',
   async (_, thunkAPI) => {
     try {
-      const contacts = await requestContacts();
+      const contacts = await requestAllContacts();
 
       return contacts; //це буде записано в екшин пейлоад
     } catch (error) {
@@ -20,12 +19,12 @@ export const fetchContacts = createAsyncThunk(
 );
 
 export const addContact = createAsyncThunk(
-  'contacts/addContact',
-  async (contact, thunkAPI) => {
+  'contacts/add',
+  async (newContact, thunkAPI) => {
     try {
-      const addContact = await requestAddContact(contact);
+      const contact = await requestAddContact(newContact);
 
-      return addContact; //це буде записано в екшин пейлоад
+      return contact; //це буде записано в екшин пейлоад
     } catch (error) {
       return thunkAPI.rejectWithValue(error.massage);
     }
@@ -33,7 +32,7 @@ export const addContact = createAsyncThunk(
 );
 
 export const deleteContact = createAsyncThunk(
-  'contacts/deleteContact',
+  'contacts/delete',
   async (contactId, thunkAPI) => {
     try {
       const deleteContact = await requestDeleteContact(contactId);

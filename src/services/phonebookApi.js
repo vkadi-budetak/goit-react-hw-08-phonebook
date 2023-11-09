@@ -16,7 +16,7 @@ export const requestRegister = async FormData => {
 
 export const requestLogin = async FormData => {
   const { data } = await phoneBookInstance.post('/users/login', FormData);
-  setToken(data.token)
+  setToken(data.token);
   return data;
 };
 
@@ -28,6 +28,24 @@ export const requestLogout = async () => {
 
 export const requestRefreshUser = async () => {
   const { data } = await phoneBookInstance.get('/users/current');
+
+  return data;
+};
+
+export const requestAllContacts = async () => {
+  const { data } = await phoneBookInstance.get('/contacts');
+
+  return data;
+};
+
+export const requestAddContact = async newContact => {
+  const { data } = await phoneBookInstance.post('/contacts', newContact);
+
+  return data;
+};
+
+export const requestDeleteContact = async contactId => {
+  const { data } = await phoneBookInstance.delete(`/contacts/${contactId}`);
 
   return data;
 };

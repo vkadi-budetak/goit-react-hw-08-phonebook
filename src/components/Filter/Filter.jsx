@@ -2,10 +2,9 @@ import React from 'react';
 
 import { selectContactsFilter } from 'redax/contacts.selectors';
 
-import css from '../ContactForm/ContactForm.module.css';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { setFilter } from 'redax/contactsReduсer';
+import { TextField } from '@mui/material';
 
 export default function Filter() {
   const filter = useSelector(selectContactsFilter);
@@ -16,9 +15,14 @@ export default function Filter() {
   };
 
   return (
-    <label>
-      <span className={css.title}>Find contacts by name</span>
-      <input value={filter} onChange={handleFilter} name="filter" type="text" />
-    </label>
+    <TextField
+      value={filter}
+      onChange={handleFilter}
+      margin="normal"
+      name="filter"
+      label="Find contacts by name"
+      type="text"
+      id="filter"
+    />
   );
 }

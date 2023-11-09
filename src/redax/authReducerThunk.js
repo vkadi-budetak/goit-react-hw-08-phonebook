@@ -1,13 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { requestLogin, requestRefreshUser, requestRegister, setToken } from 'services/phonebookApi';
+import {
+  requestLogin,
+  requestLogout,
+  requestRefreshUser,
+  requestRegister,
+  setToken,
+} from 'services/phonebookApi';
 
 export const loginThunk = createAsyncThunk(
   'auth/login',
   async (FormData, thunkAPI) => {
     try {
       const response = await requestLogin(FormData);
-      console.log('response', response)
+      console.log('response', response);
 
       return response; //це буде записано в екшин пейлоад
     } catch (error) {
@@ -21,7 +27,7 @@ export const registerThunk = createAsyncThunk(
   async (FormData, thunkAPI) => {
     try {
       const authData = await requestRegister(FormData);
-      console.log('authData', authData)
+      console.log('authData', authData);
 
       return authData; //це буде записано в екшин пейлоад
     } catch (error) {
@@ -35,7 +41,7 @@ export const refreshThunk = createAsyncThunk(
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
     const token = state.auth.token;
-    
+
     try {
       setToken(token);
       const authData = await requestRefreshUser();
@@ -54,5 +60,18 @@ export const refreshThunk = createAsyncThunk(
       if (!token) return false;
       return true;
     },
+  }
+);
+
+export const logOutThunk = createAsyncThunk(
+  'auth/logOut',
+  async (_, thunkAPI) => {
+    try {
+      await requestLogout();
+
+      return; //це буде записано в екшин пейлоад
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.massage);
+    }
   }
 );

@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React from 'react';
 
 import { useDispatch } from 'react-redux';
@@ -13,7 +14,14 @@ export default function ContactItem({ contact }) {
   return (
     <li>
       {contact.name}: {contact.number}{' '}
-      <button onClick={() => handleDeleteContact(contact.id)}>Delete</button>
+      <Button
+        onClick={() => handleDeleteContact(contact.id)}
+        variant="outlined"
+        color="error"
+        size="small"
+      >
+        Delete
+      </Button>
     </li>
   );
 }

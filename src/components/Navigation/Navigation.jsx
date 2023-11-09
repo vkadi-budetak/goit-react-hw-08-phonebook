@@ -1,4 +1,6 @@
+import { Button, ButtonGroup } from '@mui/material';
 import { StyledNavLink } from 'App.styled';
+import UserMenu from 'components/UserMenu/UserMenu';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectAuthAuthenticated } from 'redax/auth.selectors';
@@ -9,18 +11,31 @@ const Navigation = () => {
   return (
     <nav>
       {authenticated ? (
-        <><StyledNavLink className="header-link" to="/contacts">
-        Contacts
-      </StyledNavLink>
-       <button>Log Out</button></>
+        <>
+          <Button variant="contained">
+            <StyledNavLink className="header-link" to="/contacts">
+              Contacts
+            </StyledNavLink>
+          </Button>
+          <UserMenu />
+        </>
       ) : (
         <>
-          <StyledNavLink className="header-link" to="/register">
-            Register
-          </StyledNavLink>
-          <StyledNavLink className="header-link" to="/login">
-            Login
-          </StyledNavLink>
+          <ButtonGroup
+            variant="contained"
+            aria-label="outlined primary button group"
+          >
+            <Button>
+              <StyledNavLink className="header-link" to="/register">
+                Register
+              </StyledNavLink>
+            </Button>
+            <Button>
+              <StyledNavLink className="header-link" to="/login">
+                Login
+              </StyledNavLink>
+            </Button>
+          </ButtonGroup>
         </>
       )}
     </nav>

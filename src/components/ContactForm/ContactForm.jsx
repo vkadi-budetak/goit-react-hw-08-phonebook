@@ -1,65 +1,66 @@
-import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redax/contactsThunk';
+import { selectContacts } from 'redax/contacts.selectors';
+import { setFilter } from 'redax/contactsReduсer';
 
 import css from './ContactForm.module.css';
-import { selectContacts } from 'redax/contacts.selectors';
+import { useForm } from 'react-hook-form';
+import { Button, TextField } from '@mui/material';
 
 const ContactForm = () => {
-  const [fields, setFields] = useState({ name: '', number: '' });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
 
-  const handleAddContact = event => {
-    event.preventDefault();
-
-    const isDublicate = contacts.some(contact => contact.name === fields.name)
+  const onSubmit = newContact => {
+    const isDublicate = contacts.some(
+      contact => contact.name === newContact.name
+    );
     if (isDublicate) {
-      window.alert(`${fields.name} is already in contacts.`);
+      window.alert(`${newContact.name} is already in contacts.`);
       return;
     }
 
-    const newContact = {
-      name: fields.name,
-      phone: fields.phone,
-    };
-
     dispatch(addContact(newContact));
-    setFields({ name: '', number: '' });
-
-
-  };
-
-  const handleInputChange = event => {
-    setFields({ ...fields, [event.target.name]: event.target.value });
+    dispatch(setFilter(''));
+    reset();
   };
 
   return (
-    <form onSubmit={handleAddContact}>
-      <label>
-        <span className={css.title}>Name</span>
-        <input
-          onChange={handleInputChange}
-          value={fields.name}
-          type="text"
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <TextField
+          margin="normal"
+          required
           name="name"
-          required
+          label="Name"
+          type="text"
+          id="name"
+          {...register('name', { required: true })}
         />
-      </label>
-      <label>
-        <span className={css.title}>Number</span>
-        <input
-          onChange={handleInputChange}
-          value={fields.number}
-          type="tel"
+        {errors.name && <span>This field is required</span>}
+      </div>
+      <div>
+        <TextField
+          margin="normal"
+          required
           name="number"
-          required
+          label="Number"
+          type="text"
+          id="number"
+          {...register('number', { required: true })}
         />
-      </label>
-      <span className={css.btn}>
-        <button type="submit">Add contact</button>
-      </span>
+      </div>
+
+      <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+        Add contact
+      </Button>
     </form>
   );
 };

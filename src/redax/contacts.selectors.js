@@ -1,20 +1,20 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector } from '@reduxjs/toolkit';
 
-const selectContactsStore = state => state;
+const selectContactsStore = state => state.contactStore;
 
 export const selectContacts = createSelector(
-    selectContactsStore,
-  state => state.auth.contacts.items
+  selectContactsStore,
+  contactStore => contactStore.contacts
 );
-export const selectContactsisLoading = createSelector(
-    selectContactsStore,
-    state => state.auth.contacts.isLoading
+export const selectContactsIsLoading = createSelector(
+  selectContactsStore,
+  contactStore => contactStore.isLoading
 );
 export const selectContactsError = createSelector(
-    selectContactsStore,
-    state => state.auth.contacts.error
+  selectContactsStore,
+  contactStore => contactStore.error
 );
 export const selectContactsFilter = createSelector(
-    selectContactsStore,
-    state => state.auth.filter
+  selectContactsStore,
+  contactStore => contactStore.filter
 );

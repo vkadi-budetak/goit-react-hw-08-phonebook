@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux';
 import {
   selectContacts,
   selectContactsError,
-  selectContactsisLoading,
+  selectContactsIsLoading,
+  selectContactsFilter,
 } from 'redax/contacts.selectors';
 
 import ContactItem from './ContactItem';
@@ -16,8 +17,8 @@ import ErrorMessage from 'components/ErrorMessage/ErrorMessage';
 export default function ContactList() {
   const contacts = useSelector(selectContacts);
 
-  const filter = useSelector(state => state.filter);
-  const isLoading = useSelector(selectContactsisLoading);
+  const filter = useSelector(selectContactsFilter);
+  const isLoading = useSelector(selectContactsIsLoading);
   const error = useSelector(selectContactsError);
 
   const filteredContacts =
