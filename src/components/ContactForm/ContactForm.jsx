@@ -3,7 +3,6 @@ import { addContact } from 'redax/contactsThunk';
 import { selectContacts } from 'redax/contacts.selectors';
 import { setFilter } from 'redax/contactsReduсer';
 
-import css from './ContactForm.module.css';
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 
